@@ -7,5 +7,8 @@ import java.io.IOException;
 import java.util.List;
 
 public interface MedicalrecordRepository {
-    List<MedicalRecord> getMedicalRecords() throws IOException;
+    List<MedicalRecord> getListMedicalRecords() throws IOException;
+    MedicalRecord getMedicalRecord(String firstName, String lastName) throws IOException;
+    Person updateMedicalRecord(MedicalRecord medicalRecord) throws IOException;
+    boolean deleteMedicalRecord(String firstName, String lastNme) throws IOException;
 }

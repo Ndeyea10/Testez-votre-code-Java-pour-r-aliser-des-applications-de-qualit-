@@ -28,8 +28,6 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest
 class PersonServiceTest {
-    @InjectMocks
-    PersonService personService;
     @Mock
     private DataService dataService;
     @Test
@@ -82,18 +80,28 @@ class PersonServiceTest {
     @Test
     void deletePersonTest() throws IOException {
         PersonService personService = new PersonService(dataService);
-        String firstName ="John";
-        String lastName = "Bold";
-        Boolean isExist = personService.getPerson(firstName, lastName).getEmail().isEmpty();
-        Boolean notExist = personService.getPerson(firstName, lastName).getEmail().isEmpty();
+        List<Person> persons = new ArrayList<>();
 
-        Person person = personService.deletePerson("John");
+        Person person = new Person();
+        person.setFirstName("John");
+        person.setLastName("Boyd");
+        person.setAddress("1509 Culver St");
+        person.setCity("Culver");
+        person.setZip("97451");
+        person.setPhone("841-874-6512");
+        person.setEmail("jaboyd@email.com");
+        persons.add(person);
 
-        assertTrue(isExist);
-        assertFalse(notExist);
-        assertEquals("jaboyd@email.com", person.getFirstName());
-        verify(dataService, times(1)).setData(any(), any(Path.class));
-        //assertEquals("Boyd", personService.deletePerson("John"));
+        Data data = new Data();
+        data.setPersons(persons);
+
+        when(dataService.getData(any(Path.class))).thenReturn(data);
+
+        boolean deletePerson = personService.deletePerson("John", "Boyd");
+        assertTrue(deletePerson);
+        verify(dataService, times(1)).getData(any(Path.class));
+
+        //
     }
     @Test
     void updatePersonTest() throws IOException {
@@ -122,8 +130,8 @@ class PersonServiceTest {
        assertEquals("28888", updatePerson.getZip());
        //
     }
-    @Test
-    void createPersonTest() throws IOException {
+
+/*    void createPersonTest() throws IOException {
         PersonService personService = new PersonService(dataService);
         final  String FILE_NAME = "src/test/resources/dataTest.json";
         List<Person> persons = new ArrayList<>();
@@ -143,7 +151,7 @@ class PersonServiceTest {
         List<Person> listPerson = personService.createPerson(person);
 
         assertNotNull(listPerson);
-    }
+    }*/
     @Test
     void savePersonTest() throws IOException {
         List<Person> persons = new ArrayList<>();

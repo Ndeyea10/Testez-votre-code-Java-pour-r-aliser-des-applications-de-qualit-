@@ -4,32 +4,24 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.safetynet.alerts.safetynetalerts.entity.Person;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
+@EnableAutoConfiguration
 @SpringBootApplication
-public class SafetynetAlertsApplication {
+public class SafetynetAlertsApplication extends SpringBootServletInitializer {
 
+	private static boolean startHasbBeenLaunched = false;
 	public static void main(String[] args) throws IOException {
-		/*JsonNode persons = readJsonFile();
-		List<Person> listPerson = mapPerson(persons);
-		System.out.println(listPerson);
 		SpringApplication.run(SafetynetAlertsApplication.class, args);
+		startHasbBeenLaunched = true;
 
-	}
-	 private static List<Person> mapPerson(JsonNode persons){
-		 List<Person> result = new ArrayList<>();
-
-		 return result;
 	 }
-
-	 private static JsonNode readJsonFile() throws IOException {
-		 ObjectMapper mapper = new ObjectMapper();
-		 JsonNode file = mapper.readTree(SafetynetAlertsApplication.class.getResource("/data.json"));
-
-		 return  file;*/
+	 public static boolean startHasbBeenLaunched(){
+		return startHasbBeenLaunched;
 	 }
 }
