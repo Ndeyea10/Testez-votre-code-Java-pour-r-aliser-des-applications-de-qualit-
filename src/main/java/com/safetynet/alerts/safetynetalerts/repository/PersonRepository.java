@@ -10,6 +10,6 @@ public interface PersonRepository {
     Person getPerson(String firstName, String lastName) throws IOException;
     List<Person> getListPersons() throws IOException;
     Person updatePerson(Person person) throws IOException;
-    Person deletePerson(String firstName) throws IOException;
+    boolean deletePerson(String firstName, String lastNme) throws IOException;
     Person save(Person person);
 }

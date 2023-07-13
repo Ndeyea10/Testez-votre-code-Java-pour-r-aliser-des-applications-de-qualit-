@@ -20,7 +20,7 @@ import java.util.Optional;
 @Slf4j
 public class PersonService implements PersonRepository {
     private final DataService dataService;
-    private final  String FILE_NAME = "src/main/java/resources/data.json";
+    private final  String FILE_NAME = "src/main/resources/data.json";
     private List<Person> listPerson;
 
     @Autowired
@@ -56,7 +56,7 @@ public class PersonService implements PersonRepository {
         person1.setPhone(person.getPhone());
         person1.setZip(person.getZip());
         listPerson.set(cpt, person);
-       Data data =  buildData(listPerson, medicalrecordService.getMedicalRecords(), firestationService.getFirestations());
+       Data data =  buildData(listPerson, dataService.getData(Paths.get(FILE_NAME)).getMedicalrecords(), dataService.getData(Paths.get(FILE_NAME)).getFirestations());
        dataService.setData(data,Paths.get(FILE_NAME));
        return person1;
     }
@@ -86,11 +86,12 @@ public class PersonService implements PersonRepository {
     }
 
     @Override
-    public Person deletePerson(String firstName) throws IOException {
+    public boolean deletePerson(String firstName, String lastNme) throws IOException {
         List<Person> listPerson = getListPersons();
-         listPerson.removeIf(person -> person.getFirstName() == (firstName));
+        listPerson.removeIf(person -> person.getFirstName() == (firstName) && person.getLastName()==(lastNme));
         // System.out.println("Person deleted.");
-        return null;
+
+        return true;
     }
 
     public Person save(Person person) {
