@@ -22,11 +22,6 @@ public class PersonService implements PersonRepository {
     private final DataService dataService;
     private final  String FILE_NAME = "src/main/resources/data.json";
     private List<Person> listPerson;
-
-    @Autowired
-    private MedicalrecordService medicalrecordService;
-    @Autowired
-    private FirestationService firestationService;
     public PersonService(DataService dataService) {this.dataService = dataService;}
     @Override
     public List<Person> getListPersons() throws IOException {
@@ -115,4 +110,23 @@ public class PersonService implements PersonRepository {
         data.setFirestations(firestations);
         return data;
     }
+
+    public  List<Person> getListPersonByAddress(String address) throws IOException {
+        List<Person> listPerson = getListPersons();
+       return listPerson.stream().filter(person -> person.getAddress().equals(address)).toList();
+    }
+    public Person getPersonByEmailByCity(String city) throws IOException {
+        List<Person> listPerson = getListPersons();
+        Optional<Person> optionalPerson= listPerson.stream().filter(person -> person.getCity().equals(city)).
+                findFirst();
+        if (optionalPerson.isPresent()){
+            return optionalPerson.get();
+        }
+        return  null;
+    }
+    public  List<Person> getListPersonByEmail(String email) throws IOException {
+        List<Person> listPerson = getListPersons();
+        return listPerson.stream().filter(person -> person.getEmail().equals(email)).toList();
+    }
+
 }

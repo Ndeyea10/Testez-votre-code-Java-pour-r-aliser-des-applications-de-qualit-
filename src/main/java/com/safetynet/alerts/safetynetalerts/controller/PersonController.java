@@ -20,7 +20,6 @@ import java.util.List;
     String FILE_NAME = "src/test/resources/dataTest.json";
     @Autowired
     private PersonService ps;
-
     @Autowired
     private DataService dataService;
     public PersonController() {

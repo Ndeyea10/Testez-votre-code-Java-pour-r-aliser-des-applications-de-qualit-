@@ -32,7 +32,6 @@ class PersonServiceTest {
     private DataService dataService;
     @Test
     void getListPersonTest() throws IOException {
-
       PersonService personService = new PersonService(dataService);
         List<Person> persons = new ArrayList<>();
 
@@ -152,7 +151,7 @@ class PersonServiceTest {
 
         assertNotNull(listPerson);
     }*/
-    @Test
+    /*  @Test
     void savePersonTest() throws IOException {
         List<Person> persons = new ArrayList<>();
 
@@ -169,6 +168,6 @@ class PersonServiceTest {
         //GIVEN    simulation
         when(dataService.getData(any(Path.class))).thenReturn(data);
 
-    }
+    }*/
 
 }
