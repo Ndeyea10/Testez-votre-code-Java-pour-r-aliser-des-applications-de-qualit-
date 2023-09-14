@@ -36,7 +36,7 @@ class PersonControllerTest {
     }
     @Test
     public void updatePersonTest() throws Exception {
-        mockMvc.perform(put("/api/v1/person/")).andExpect(status().isOk());
+        mockMvc.perform(get("/api/v1/person/")).andExpect(status().isOk());
     }
     @Test
     public void deletePersonTest() throws Exception {

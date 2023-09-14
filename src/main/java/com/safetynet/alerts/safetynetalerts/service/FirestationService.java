@@ -107,4 +107,28 @@ public class FirestationService implements FirestationRepository {
         data.setFirestations(firestations);
         return data;
     }
+    // Ctte fonction ne retourne que la premier station
+    public Firestation getFirestationByStationNumber(String stationNumber) throws IOException {
+        List<Firestation> firestationList = getListFirestations();
+        Optional<Firestation> optionalFirestation = firestationList.stream().filter(firestation -> firestation.getStation().equals(stationNumber)).
+                findFirst();
+        if (optionalFirestation.isPresent()){
+            return optionalFirestation.get();
+        }
+        return  null;
+    }
+    public   List<Firestation>  getAllFirestationByStationNumber(String stationNumber) throws IOException {
+        List<Firestation> firestationList = getListFirestations();
+        return firestationList.stream().filter(firestation -> firestation.getStation().equals(stationNumber)).toList();
+    }
+    public Firestation getFirestationByAddress(String address) throws IOException {
+        List<Firestation> firestationList = getListFirestations();
+        Optional<Firestation> optionalFirestation = firestationList.stream().filter(firestation -> firestation.getAddress().equals(address)).
+                findFirst();
+        if (optionalFirestation.isPresent()){
+            return optionalFirestation.get();
+        }
+        return  null;
+    }
 }
+

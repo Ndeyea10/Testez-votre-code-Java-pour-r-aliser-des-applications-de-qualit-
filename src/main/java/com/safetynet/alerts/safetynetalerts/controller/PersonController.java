@@ -22,16 +22,8 @@ import java.util.List;
     private PersonService ps;
     @Autowired
     private DataService dataService;
-    public PersonController() {
+    public PersonController() {}
 
-    @Autowired
-    private DataService dataService;
-    public PersonController() {
-    }
-   /*@GetMapping(path = "/data", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Data getData (HttpServletRequest request, HttpServletResponse response) throws IOException {
-        return  dataService.getData(Path.of(FILE_NAME));
-    }*/
     @GetMapping(path = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Person> getListPerson(HttpServletRequest request, HttpServletResponse response) throws IOException {
         return  ps.getListPersons();

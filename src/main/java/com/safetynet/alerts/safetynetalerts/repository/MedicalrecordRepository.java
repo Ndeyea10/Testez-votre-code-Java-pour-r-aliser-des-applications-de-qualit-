@@ -10,5 +10,4 @@ public interface MedicalrecordRepository {
     MedicalRecord getMedicalRecord(String firstName, String lastName) throws IOException;
     MedicalRecord updateMedicalRecord(MedicalRecord medicalRecord) throws IOException;
     boolean deleteMedicalRecord(String firstName, String lastNme) throws IOException;
-    Person updateMedicalRecord(MedicalRecord medicalRecord) throws IOException;
 }
