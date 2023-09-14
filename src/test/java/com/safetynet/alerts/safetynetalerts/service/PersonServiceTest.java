@@ -28,10 +28,13 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest
 class PersonServiceTest {
+    @InjectMocks
+    PersonService personService;
     @Mock
     private DataService dataService;
     @Test
     void getListPersonTest() throws IOException {
+
       PersonService personService = new PersonService(dataService);
         List<Person> persons = new ArrayList<>();
 
@@ -129,8 +132,8 @@ class PersonServiceTest {
        assertEquals("28888", updatePerson.getZip());
        //
     }
-
-/*    void createPersonTest() throws IOException {
+    @Test
+    void createPersonTest() throws IOException {
         PersonService personService = new PersonService(dataService);
         final  String FILE_NAME = "src/test/resources/dataTest.json";
         List<Person> persons = new ArrayList<>();
@@ -150,8 +153,8 @@ class PersonServiceTest {
         List<Person> listPerson = personService.createPerson(person);
 
         assertNotNull(listPerson);
-    }*/
-    /*  @Test
+    }
+    @Test
     void savePersonTest() throws IOException {
         List<Person> persons = new ArrayList<>();
 
@@ -168,6 +171,6 @@ class PersonServiceTest {
         //GIVEN    simulation
         when(dataService.getData(any(Path.class))).thenReturn(data);
 
-    }*/
+    }
 
 }

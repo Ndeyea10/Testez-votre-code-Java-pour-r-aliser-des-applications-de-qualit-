@@ -23,6 +23,10 @@ import java.util.List;
     @Autowired
     private DataService dataService;
     public PersonController() {
+
+    @Autowired
+    private DataService dataService;
+    public PersonController() {
     }
    /*@GetMapping(path = "/data", produces = MediaType.APPLICATION_JSON_VALUE)
     public Data getData (HttpServletRequest request, HttpServletResponse response) throws IOException {
