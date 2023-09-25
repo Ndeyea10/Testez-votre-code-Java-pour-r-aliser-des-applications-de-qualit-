@@ -22,7 +22,6 @@ public class FirestationController {
 
     public FirestationController() {
     }
-
     @GetMapping(path = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Firestation> getListFirestation(HttpServletRequest request, HttpServletResponse response) throws IOException {
         return firestationService.getListFirestations();

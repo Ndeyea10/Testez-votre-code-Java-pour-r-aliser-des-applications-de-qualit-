@@ -108,4 +108,57 @@ class FirestationServiceTest {
         verify(dataService, times(1)).getData(any(Path.class));
     }
 
+    /* ce test de tester que la fonction qui retourne la premiere station*/
+    @Test
+    public void getFirestationByStationNumberTest() throws IOException {
+        FirestationService firestationService = new FirestationService(dataService);
+        List<Firestation> firestations = new ArrayList<>();
+
+        Firestation firestation = new Firestation();
+        firestation.setStation("3");
+        firestation.setAddress("1509 Culver St");
+        firestations.add(firestation);
+
+        Data data = new Data();
+        data.setFirestations(firestations);
+
+        when(dataService.getData(any(Path.class))).thenReturn(data);
+        Firestation firestation1 = firestationService.getFirestationByStationNumber("3");
+        assertEquals("1509 Culver St", firestation1.getAddress());
+    }
+
+    @Test
+    public void getFirestationByAddressTest() throws IOException {
+        FirestationService firestationService = new FirestationService(dataService);
+        List<Firestation> firestations = new ArrayList<>();
+
+        Firestation firestation = new Firestation();
+        firestation.setStation("3");
+        firestation.setAddress("1509 Culver St");
+        firestations.add(firestation);
+
+        Data data = new Data();
+        data.setFirestations(firestations);
+
+        when(dataService.getData(any(Path.class))).thenReturn(data);
+        Firestation firestation1 = firestationService.getFirestationByAddress("1509 Culver St");
+        assertEquals("3", firestation1.getStation());
+    }
+    @Test
+    public void getAllFirestationByStationNumberTest() throws IOException {
+        FirestationService firestationService = new FirestationService(dataService);
+        List<Firestation> firestations = new ArrayList<>();
+
+        Firestation firestation = new Firestation();
+        firestation.setStation("3");
+        firestation.setAddress("1509 Culver St");
+        firestations.add(firestation);
+
+        Data data = new Data();
+        data.setFirestations(firestations);
+
+        when(dataService.getData(any(Path.class))).thenReturn(data);
+        List<Firestation>  firestation1 = firestationService.getAllFirestationByStationNumber("3");
+        assertEquals("1509 Culver St", firestation1.get(0).getAddress());
+    }
 }

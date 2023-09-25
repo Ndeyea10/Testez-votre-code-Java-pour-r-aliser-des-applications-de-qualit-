@@ -9,8 +9,9 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
+
 @Service
 public class SafeTyNetService {
     @Autowired
@@ -19,8 +20,12 @@ public class SafeTyNetService {
     private MedicalrecordService medicalrecordService;
     @Autowired
     private PersonService personService;
-    @Autowired
-    private PersonDTOService personDTOService;
+
+    public SafeTyNetService(FirestationService firestationService, MedicalrecordService medicalrecordService, PersonService personService) {
+        this.firestationService = firestationService;
+        this.medicalrecordService = medicalrecordService;
+        this.personService = personService;
+    }
 
     public PersonByStationNumberDTO getPersonByStationNumber(String stationNumber) throws IOException, ParseException {
         Firestation firestation = firestationService.getFirestationByStationNumber(stationNumber);
@@ -35,7 +40,7 @@ public class SafeTyNetService {
     }
 
     public List<PersonByAdressDTO> getListPersonByCity(String city) throws IOException {
-        Person person = personService.getPersonByEmailByCity(city);
+        Person person = personService.getPersonByCity(city);
         List<Person> personList = personService.getListPersonByEmail(person.getEmail());
         PersonByAdressDTO personByAdressDTO = new PersonByAdressDTO(person.getEmail());
         //personList.stream().map(person1 -> new PersonByAdressDTO(person1.getEmail()));
@@ -46,7 +51,7 @@ public class SafeTyNetService {
         return personDTOList;
     }
     public MedicalRecordDTO getPersonInfoByFirstNameAndLastName(String firstName, String lastaName) throws IOException {
-        Person person = personService.getPerson(firstName, lastaName);
+        Person person = personService.getPersonByFirstNameAndLastName(firstName, lastaName);
         MedicalRecord medicalRecord = medicalrecordService.getMedicalRecord(firstName, lastaName);
 
         int agePerson = medicalrecordService.agePerson(medicalRecord.getBirthdate());
@@ -73,19 +78,26 @@ public class SafeTyNetService {
                 return personList.stream().map(per -> new ChildDTO(per.getFirstName(), per.getLastName(), age)).toList();
             }
         }
-        return null;
+        return childDTOList;
     }
     public List<String> getListPhoneByStationNumber(String firestationNumber) throws IOException {
         List<String> phones = new ArrayList<>();
+        List<Person> personList = new ArrayList<>();
         List<Firestation> firestations = firestationService.getAllFirestationByStationNumber(firestationNumber);
         for (int i = 0; i < firestations.size(); i++) {
-            List<Person> personList = personService.getListPersonByAddress(firestations.get(i).getAddress());
+            personList = personService.getListPersonByAddress(firestations.get(i).getAddress());
             phones.addAll(personList.stream().map(person -> (person.getPhone())).toList());
         }
-        return phones;
-    }
+        Set<String> set = new LinkedHashSet<>(phones);
+        List<String> listPhoneWithoutDuplicates = new ArrayList<>(set);
 
+        System.out.println(listPhoneWithoutDuplicates);
+        System.out.println(listPhoneWithoutDuplicates.size());
+
+        return listPhoneWithoutDuplicates;
+    }
     public List<FireDTO> getListPersonByAddress(String address) throws IOException {
+
         Firestation firestation = firestationService.getFirestationByAddress(address);
         List<Person> personList = personService.getListPersonByAddress(firestation.getAddress());
 
@@ -109,35 +121,41 @@ public class SafeTyNetService {
                 ).toList();
         return fireDTOList;
     }
-    public List<FireDTO> getListPersonByStationNumber(List<String> listStation_number) throws IOException {
-      listStation_number = new ArrayList<>();
-      List<Person> personList = new ArrayList<>();
-
-        List<Firestation>  listFirestations = firestationService.getListFirestations();
-        for (int i = 0; i < listFirestations.size(); i++) {
-            listStation_number.addAll(listFirestations.stream().map(firestation -> (firestation.getStation())).toList());
-            List<Firestation> firestations = firestationService.getAllFirestationByStationNumber(listStation_number.get(i));
-            personList = personService.getListPersonByAddress(firestations.get(i).getAddress());
+    public Map<String, List<FloodDTO>> getListPersonByStationNumber(List<String> listStation_number) throws IOException {
+        Map<String, List<FloodDTO>> result = new HashMap<>();
+        List<Firestation> firestations = new ArrayList<>();
+        for (int i = 0; i < listStation_number.size(); i++) {
+          firestations.addAll(firestationService.getAllFirestationByStationNumber(listStation_number.get(i)));
         }
-        List<FireDTO> infoPersonAndMedicalRicordDTOS = personList.stream()
-                .map(person -> {
+        firestations.forEach(firestation -> {
+            try {
+                List<Person> personList = personService.getListPersonByAddress(firestation.getAddress());
+                List<FloodDTO> floodDTOS =personList.stream().map(person ->
+                        {
                             try {
-                                MedicalRecord medicalRecord = medicalrecordService.getMedicalRecord(person.getFirstName(), person.getLastName());
-                                return new FireDTO(
+                                MedicalRecord medicalRecord = medicalrecordService.getMedicalRecord(
+                                        person.getFirstName(),
+                                        person.getLastName()
+                                        );
+                                return new FloodDTO(
                                         person.getFirstName(),
                                         person.getLastName(),
-                                        person.getAddress(),
+                                        person.getPhone(),
                                         medicalRecord.getMedications(),
                                         medicalRecord.getAllergies(),
-                                        medicalrecordService.agePerson(medicalRecord.getBirthdate()),
-                                        null
-                                    );
+                                        medicalrecordService.agePerson(medicalRecord.getBirthdate())
+                                );
                             } catch (IOException e) {
                                 throw new RuntimeException(e);
                             }
                         }
-                ).toList();
-        return infoPersonAndMedicalRicordDTOS;
+                        ).toList();
+                result.put(firestation.getAddress(), floodDTOS);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
+        return result;
     }
 }

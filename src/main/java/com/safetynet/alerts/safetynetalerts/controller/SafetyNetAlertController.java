@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class SafetyNetAlertController {
@@ -33,18 +34,15 @@ public class SafetyNetAlertController {
       return safeTyNetService.getListChildByAddress(address);
   }
   @GetMapping(path = "/phoneAlert", produces = MediaType.APPLICATION_JSON_VALUE)
-  public List<String>  getListPersonByFirestationNumber(@RequestParam String firestationNumber) throws IOException {
-      return  safeTyNetService.getListPhoneByStationNumber(firestationNumber);
+  public List<String>  getListPersonByFirestationNumber(@RequestParam String firestation) throws IOException {
+      return  safeTyNetService.getListPhoneByStationNumber(firestation);
   }
   @GetMapping(path = "/fire", produces = MediaType.APPLICATION_JSON_VALUE)
   public List<FireDTO>  getListPersonByFirestation(@RequestParam String address) throws IOException {
       return  safeTyNetService.getListPersonByAddress(address);
   }
   @GetMapping(path = "/flood/stations", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<FireDTO> getListPersonByStationNumber(@RequestParam List<String>  stations) throws IOException {
+    public Map<String, List<FloodDTO>> getListPersonByStationNumber(@RequestParam List<String> stations) throws IOException {
       return  safeTyNetService.getListPersonByStationNumber(stations);
   }
-
-
-
 }

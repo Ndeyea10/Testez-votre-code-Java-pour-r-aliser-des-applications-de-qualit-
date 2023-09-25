@@ -1,35 +1,25 @@
 package com.safetynet.alerts.safetynetalerts.service;
 
 import com.safetynet.alerts.safetynetalerts.entity.Data;
+import com.safetynet.alerts.safetynetalerts.entity.Firestation;
 import com.safetynet.alerts.safetynetalerts.entity.Person;
-import com.safetynet.alerts.safetynetalerts.repository.PersonRepository;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest
 class PersonServiceTest {
-    @InjectMocks
-    PersonService personService;
     @Mock
     private DataService dataService;
     @Test
@@ -73,12 +63,10 @@ class PersonServiceTest {
 
         when(dataService.getData(any(Path.class))).thenReturn(data);
 
-        Person person1 = personService.getPerson("Jean", "Leroy");
+        Person person1 = personService.getPersonByFirstNameAndLastName("Jean", "Leroy");
         assertEquals("jeanL@email.com", person1.getEmail());
         verify(dataService, times(1)).getData(any(Path.class));
-
     }
-
     @Test
     void deletePersonTest() throws IOException {
         PersonService personService = new PersonService(dataService);
@@ -102,8 +90,6 @@ class PersonServiceTest {
         boolean deletePerson = personService.deletePerson("John", "Boyd");
         assertTrue(deletePerson);
         verify(dataService, times(1)).getData(any(Path.class));
-
-        //
     }
     @Test
     void updatePersonTest() throws IOException {
@@ -130,7 +116,63 @@ class PersonServiceTest {
        Person updatePerson = personService.updatePerson(person);
 
        assertEquals("28888", updatePerson.getZip());
-       //
+
+    }
+
+    @Test
+    public void getFirestationByAddressTest() throws IOException {
+        PersonService  personService = new PersonService(dataService);
+        List<Person> persons = new ArrayList<>();
+
+        Person person = new Person();
+        person.setFirstName("Jean");
+        person.setLastName("Leroy");
+        person.setEmail("jeanL@email.com");
+        person.setAddress("1509 Culver St");
+        persons.add(person);
+
+        Data data = new Data();
+        data.setPersons(persons);
+
+        when(dataService.getData(any(Path.class))).thenReturn(data);
+        List<Person> personList = personService.getListPersonByAddress("1509 Culver St");
+        assertEquals("jeanL@email.com", personList.get(0).getEmail());
+    }
+    @Test
+    public void getPersonByCityTest() throws IOException {
+        PersonService  personService = new PersonService(dataService);
+        List<Person> persons = new ArrayList<>();
+
+        Person person = new Person();
+        person.setCity("Culver");
+        person.setEmail("jaboyd@email.com");
+        persons.add(person);
+
+        Data data = new Data();
+        data.setPersons(persons);
+
+        when(dataService.getData(any(Path.class))).thenReturn(data);
+        Person person1 = personService.getPersonByCity("Culver");
+        assertEquals("jaboyd@email.com", person1.getEmail());
+
+    }
+
+    @Test
+    public void getListPersonByEmailTest() throws IOException {
+        PersonService  personService = new PersonService(dataService);
+        List<Person> persons = new ArrayList<>();
+
+        Person person = new Person();
+        person.setCity("Culver");
+        person.setEmail("jaboyd@email.com");
+        persons.add(person);
+
+        Data data = new Data();
+        data.setPersons(persons);
+
+        when(dataService.getData(any(Path.class))).thenReturn(data);
+        List<Person> personList = personService.getListPersonByEmail("jaboyd@email.com");
+        assertEquals(1, personList.size());
     }
     @Test
     void createPersonTest() throws IOException {
@@ -145,32 +187,24 @@ class PersonServiceTest {
         person.setZip("97451");
         person.setPhone("841-874-6512");
         person.setEmail("jaboyd@email.com");
-       // persons.add(person);
-
-    //    Person savePerson = repo.save(person);
-        //  assertNotNull(savePerson);
-
-        List<Person> listPerson = personService.createPerson(person);
-
-        assertNotNull(listPerson);
-    }
-    @Test
-    void savePersonTest() throws IOException {
-        List<Person> persons = new ArrayList<>();
-
-        Person person = new Person();
-        person.setAddress("1509 Culver St");
-        person.setCity("Culver");
-        person.setZip("97451");
-        person.setPhone("841-874-6512");
-        person.setEmail("jaboyd@email.com");
         persons.add(person);
 
-        Data data = new Data();
-        data.setPersons(persons);
-        //GIVEN    simulation
-        when(dataService.getData(any(Path.class))).thenReturn(data);
-
+        List<Person> listPerson = personService.createPerson(person);
+        assertNotNull(listPerson);
     }
+    /*public void buildDataTest(){
+        PersonService personService = new PersonService(dataService);
 
+        FirestationService firestationService = new FirestationService(dataService);
+        List<Firestation> firestations = new ArrayList<>();
+
+        Firestation firestation = new Firestation();
+        firestation.setStation("3");
+        firestation.setAddress("1509 Culver St");
+        firestations.add(firestation);
+
+        Data data = new Data();
+        data.setFirestations(firestations);
+
+    }*/
 }

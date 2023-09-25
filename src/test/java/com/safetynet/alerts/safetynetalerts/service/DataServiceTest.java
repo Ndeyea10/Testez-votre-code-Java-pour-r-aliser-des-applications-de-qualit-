@@ -11,7 +11,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 class DataServiceTest {
     private DataService dataService = new DataService();
     @Test
@@ -24,14 +24,6 @@ class DataServiceTest {
         firestation.setAddress("1509 Culver St");
         firestation.setStation("3");
 
-       /* MedicalRecord medicalRecord = new MedicalRecord();
-        medicalRecord.setFirstName("John");
-        medicalRecord.setLastName("Boyd");
-        medicalRecord.setBirthdate("03/06/1984");
-       //medicalRecord.setMedications(["aznol:350mg", "hydrapermazol:100mg"]);
-      // medicalRecord.setAllergies(["nillacilan"]);
-        */
-
         Person person = new Person();
         person.setFirstName("John");
         person.setLastName("Boyd");
@@ -43,7 +35,6 @@ class DataServiceTest {
 
         assertEquals(person, data.getPersons().get(0));
         assertEquals(firestation, data.getFirestations().get(0));
-        // assertEquals(medicalRecord, data.getMedicalrecords().get(0));
     }
     @Test
     void setDataTest() throws IOException {
@@ -82,9 +73,7 @@ class DataServiceTest {
 
         assertEquals(firestation, updateData.getFirestations().get(0));
         assertEquals(person, updateData.getPersons().get(0));
-
        // assertEquals(medicalRecord, updateData.getMedicalrecords().get(0));
-
     }
 
 }

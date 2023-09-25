@@ -6,16 +6,13 @@ import com.safetynet.alerts.safetynetalerts.entity.MedicalRecord;
 import com.safetynet.alerts.safetynetalerts.entity.Person;
 import com.safetynet.alerts.safetynetalerts.repository.MedicalrecordRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.Year;
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -23,8 +20,6 @@ public class MedicalrecordService implements MedicalrecordRepository {
     private final DataService dataService;
     private final  String FILE_NAME = "src/main/resources/data.json";
     private List<MedicalRecord> listMedicalRecord;
-    DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
-    String today = formatter.format(new Date());
 
     public MedicalrecordService(DataService dataService) {
         this.dataService = dataService;
@@ -104,7 +99,6 @@ public class MedicalrecordService implements MedicalrecordRepository {
     }
     public int agePerson(String birthdate) {
                 int annee = Integer.parseInt(birthdate.split("/")[2]);
-
                 int anneeEnCours = Year.now().getValue();
                 int age = anneeEnCours - annee;
                 return age;

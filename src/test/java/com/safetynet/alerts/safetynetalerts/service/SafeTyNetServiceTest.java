@@ -1,39 +1,44 @@
 package com.safetynet.alerts.safetynetalerts.service;
+
 import com.safetynet.alerts.safetynetalerts.dto.MedicalRecordDTO;
-import com.safetynet.alerts.safetynetalerts.entity.Firestation;
+import com.safetynet.alerts.safetynetalerts.dto.PersonByAdressDTO;
+import com.safetynet.alerts.safetynetalerts.entity.Data;
+import com.safetynet.alerts.safetynetalerts.entity.Person;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.context.SpringBootTest;
+
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
+@SpringBootTest
 class SafeTyNetServiceTest {
-    @Mock
-    private DataService dataService;
+    @Mock private PersonService personService;
+    @Mock private FirestationService firestationService;
+    @Mock private MedicalrecordService medicalrecordService;
     @Test
-    void getPersonByStationTest() throws IOException {
-        /*SafeTyNetService safeTyNetService = new SafeTyNetService();
+    public void getListPhoneByStationNumberTest() throws IOException {
+        SafeTyNetService safeTyNetService = new SafeTyNetService(firestationService,medicalrecordService, personService);
 
-        Firestation firestation1 = firestationService.getFirestationByStationNumber("3");
-        List<Person> personList = personService.getListPersonByAddress(firestation1.getAddress());
-        assertEquals("1509 Culver St", personList.get(1).getAddress());
-        verify(dataService, times(1)).getData(any(Path.class));
-*/
+        List<String> firestationList1 = safeTyNetService.getListPhoneByStationNumber("2");
+
+        assertEquals(2, firestationList1.size());
     }
-
     @Test
-    public void getPersonInfoByFirstNameAndLastName() throws IOException {
-        SafeTyNetService safeTyNetService = new SafeTyNetService();
+    public void getPersonInfoByFirstNameAndLastNameTest() throws IOException {
+        SafeTyNetService safeTyNetService = new SafeTyNetService(firestationService,medicalrecordService, personService);
+
         MedicalRecordDTO medicalRecordDTO1 = safeTyNetService.getPersonInfoByFirstNameAndLastName("Jean", "Leroy");
         assertEquals(34, medicalRecordDTO1.getAge());
     }
-
-    @Test
-    public void getListPhoneByStationNumber() throws IOException {
-        SafeTyNetService safeTyNetService = new SafeTyNetService();
-        List<String> firestationList1 = safeTyNetService.getListPhoneByStationNumber("3");
-        assertEquals(4, firestationList1.size());
-    }
-
 }

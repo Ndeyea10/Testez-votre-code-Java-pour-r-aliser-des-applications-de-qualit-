@@ -7,9 +7,8 @@ import java.util.List;
 
 public interface PersonRepository {
     List<Person> createPerson(Person person) throws IOException;
-    Person getPerson(String firstName, String lastName) throws IOException;
+    Person getPersonByFirstNameAndLastName(String firstName, String lastName) throws IOException;
     List<Person> getListPersons() throws IOException;
     Person updatePerson(Person person) throws IOException;
     boolean deletePerson(String firstName, String lastNme) throws IOException;
-    Person save(Person person);
 }

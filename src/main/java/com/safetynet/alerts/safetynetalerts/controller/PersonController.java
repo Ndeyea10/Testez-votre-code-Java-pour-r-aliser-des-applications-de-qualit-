@@ -1,6 +1,5 @@
 package com.safetynet.alerts.safetynetalerts.controller;
 
-import com.safetynet.alerts.safetynetalerts.entity.Data;
 import com.safetynet.alerts.safetynetalerts.entity.Person;
 import com.safetynet.alerts.safetynetalerts.service.DataService;
 import com.safetynet.alerts.safetynetalerts.service.PersonService;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.List;
 
 @RestController
@@ -32,7 +30,7 @@ import java.util.List;
     public Person getPersonByFistAndLastName(@RequestParam(value = "firstName", required = false) String firstName,
                                              @RequestParam(value = "lastName", required = false)  String lastName ,
                                              HttpServletRequest request, HttpServletResponse response) throws IOException {
-       return ps.getPerson(firstName, lastName);
+       return ps.getPersonByFirstNameAndLastName(firstName, lastName);
     }
     @PutMapping("/")
     public Person updatePerson(@RequestBody Person person) throws IOException {

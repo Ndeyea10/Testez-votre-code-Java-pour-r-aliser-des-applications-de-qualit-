@@ -1,8 +1,8 @@
 package com.safetynet.alerts.safetynetalerts.service;
 
 import com.safetynet.alerts.safetynetalerts.entity.Data;
-import com.safetynet.alerts.safetynetalerts.entity.Firestation;
 import com.safetynet.alerts.safetynetalerts.entity.MedicalRecord;
+import com.safetynet.alerts.safetynetalerts.entity.Person;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -53,7 +53,6 @@ class MedicalrecordServiceTest {
     void  getMedicalRecordTest() throws IOException {
         MedicalrecordService medicalrecordService = new MedicalrecordService(dataService);
         List<MedicalRecord> medicalRecords = new ArrayList<>();
-
         MedicalRecord medicalRecord = new MedicalRecord();
 
         medicalRecord.setFirstName("Jean");
@@ -124,9 +123,25 @@ class MedicalrecordServiceTest {
     @Test
     public void agePersonTest(){
         MedicalrecordService medicalrecordService = new MedicalrecordService(dataService);
-
         int age = medicalrecordService.agePerson("10/10/1989");
         assertEquals(34,age);
     }
+    @Test
+    public void getNombreDAdulteTest() throws IOException {
+        MedicalrecordService medicalrecordService = new MedicalrecordService(dataService);
+        List<Person> persons = new ArrayList<>();
 
+        int nbAdulte = medicalrecordService.getNombreDAdulte(persons);
+
+        assertNotNull(nbAdulte);
+    }
+    @Test
+    public void getNombreEnfantTest() throws IOException {
+        MedicalrecordService medicalrecordService = new MedicalrecordService(dataService);
+        List<Person> persons = new ArrayList<>();
+
+        int nbEnfant = medicalrecordService.getNombreEnfant(persons);
+
+        assertNotNull(nbEnfant);
+    }
 }

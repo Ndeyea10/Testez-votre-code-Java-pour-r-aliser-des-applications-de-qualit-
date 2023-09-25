@@ -10,14 +10,12 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @Slf4j
 public class FirestationService implements FirestationRepository {
-
     private final DataService dataService;
     private final  String FILE_NAME = "src/main/resources/data.json";
     private List<Firestation> listFirestation;
@@ -28,13 +26,10 @@ public class FirestationService implements FirestationRepository {
 
     @Override
     public List<Firestation> getListFirestations() throws IOException {
-    //    List<Firestation> listFirestation = new ArrayList<>();
-
-            listFirestation = dataService.getData(Paths.get(FILE_NAME)).getFirestations();
-
+       // List<Firestation> listFirestation = new ArrayList<>();
+        listFirestation = dataService.getData(Paths.get(FILE_NAME)).getFirestations();
         return listFirestation;
     }
-
     /**
      * @param address
      * @return
@@ -57,7 +52,6 @@ public class FirestationService implements FirestationRepository {
      * @throws IOException
      */
 
-
     /**
      * @param firestation
      * @return
@@ -75,7 +69,6 @@ public class FirestationService implements FirestationRepository {
                 break;
             }
         }
-
         Firestation firestation1 = new Firestation();
         firestation1.setAddress(address);
         firestation1.setStation(firestation.getStation());
@@ -98,7 +91,6 @@ public class FirestationService implements FirestationRepository {
             // System.out.println("firestation deleted.");
             return true;
     }
-
     private Data buildData(List<Person> persons, List<MedicalRecord> medicalrecords, List<Firestation> firestations){
 
         Data data = new Data();
@@ -107,7 +99,7 @@ public class FirestationService implements FirestationRepository {
         data.setFirestations(firestations);
         return data;
     }
-    // Ctte fonction ne retourne que la premier station
+    // Ctte fonction ne retourne que la premiere station
     public Firestation getFirestationByStationNumber(String stationNumber) throws IOException {
         List<Firestation> firestationList = getListFirestations();
         Optional<Firestation> optionalFirestation = firestationList.stream().filter(firestation -> firestation.getStation().equals(stationNumber)).

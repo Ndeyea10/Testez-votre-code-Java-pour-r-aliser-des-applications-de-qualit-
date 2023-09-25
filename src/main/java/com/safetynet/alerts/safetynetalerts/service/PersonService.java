@@ -7,7 +7,6 @@ import com.safetynet.alerts.safetynetalerts.entity.Person;
 import com.safetynet.alerts.safetynetalerts.repository.PersonRepository;
 import lombok.extern.slf4j.Slf4j;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -69,7 +68,7 @@ public class PersonService implements PersonRepository {
     }
 
     @Override
-    public Person getPerson(String firstName, String lastName) throws IOException {
+    public Person getPersonByFirstNameAndLastName(String firstName, String lastName) throws IOException {
         List<Person> listPersons = getListPersons();
         Optional<Person> personOptional = listPersons.stream()
                 .filter(person -> person.getFirstName().equals(firstName) && person.getLastName().equals(lastName))
@@ -85,21 +84,7 @@ public class PersonService implements PersonRepository {
         List<Person> listPerson = getListPersons();
         listPerson.removeIf(person -> person.getFirstName() == (firstName) && person.getLastName()==(lastNme));
         // System.out.println("Person deleted.");
-
         return true;
-    }
-
-    public Person save(Person person) {
-        Person person1 = new Person();
-        person1.setFirstName(person.getFirstName());
-        person1.setLastName(person.getLastName());
-        person1.setAddress(person.getAddress());
-        person1.setEmail(person.getEmail());
-        person1.setCity(person.getCity());
-        person1.setPhone(person.getPhone());
-        person1.setZip(person.getZip());
-        listPerson.add(person1);
-        return person1;
     }
 
     private Data buildData(List<Person> persons,List<MedicalRecord> medicalrecords,List<Firestation> firestations){
@@ -115,7 +100,7 @@ public class PersonService implements PersonRepository {
         List<Person> listPerson = getListPersons();
        return listPerson.stream().filter(person -> person.getAddress().equals(address)).toList();
     }
-    public Person getPersonByEmailByCity(String city) throws IOException {
+    public Person getPersonByCity(String city) throws IOException {
         List<Person> listPerson = getListPersons();
         Optional<Person> optionalPerson= listPerson.stream().filter(person -> person.getCity().equals(city)).
                 findFirst();
