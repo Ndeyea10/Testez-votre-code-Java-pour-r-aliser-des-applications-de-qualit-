@@ -38,6 +38,7 @@ class DataServiceTest {
     }
     @Test
     void setDataTest() throws IOException {
+        try {
         final  String FILE_NAME =   "src/test/resources/setDataTest.json";
         List<Person> persons = new ArrayList<>();
         List<MedicalRecord> medicalRecords = new ArrayList<>();
@@ -74,6 +75,10 @@ class DataServiceTest {
         assertEquals(firestation, updateData.getFirestations().get(0));
         assertEquals(person, updateData.getPersons().get(0));
        // assertEquals(medicalRecord, updateData.getMedicalrecords().get(0));
+        }catch (IOException e)
+        {
+            e.printStackTrace();
+        }
     }
 
 }

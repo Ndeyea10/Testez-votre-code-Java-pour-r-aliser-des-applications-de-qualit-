@@ -19,7 +19,6 @@ public class SafetynetAlertsApplication extends SpringBootServletInitializer {
 	public static void main(String[] args) throws IOException {
 		SpringApplication.run(SafetynetAlertsApplication.class, args);
 		startHasbBeenLaunched = true;
-
 	 }
 	 public static boolean startHasbBeenLaunched(){
 		return startHasbBeenLaunched;

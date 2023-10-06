@@ -119,16 +119,13 @@ public class MedicalrecordService implements MedicalrecordRepository {
     public int  getNombreEnfant(List<Person> personList) throws IOException {
         int cptEnfant =0;
         for (Person person: personList){
-            try {
+
                 MedicalRecord medicalRecord = getMedicalRecord(person.getFirstName(), person.getLastName());
                 String birthdate =  medicalRecord.getBirthdate();
                 int age = agePerson(birthdate);
                 if(age <18){
                     cptEnfant++;
                 }
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
         }
         return  cptEnfant;
     }

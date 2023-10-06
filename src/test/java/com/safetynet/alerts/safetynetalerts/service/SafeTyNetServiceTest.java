@@ -173,6 +173,7 @@ class SafeTyNetServiceTest {
     }
     @Test
     void getListPersonByAddressTest() throws IOException {
+      try {
         SafeTyNetService safeTyNetService = new SafeTyNetService(firestationService,medicalrecordService, personService);
 
         Person person = new Person();
@@ -200,6 +201,9 @@ class SafeTyNetServiceTest {
 
         List<FireDTO>  fireDTOList = safeTyNetService.getListPersonByAddress("1509 Culver St");
         assertEquals("841-874-6512", fireDTOList.get(0).getPhone());
+      } catch (IOException e) {
+          throw new RuntimeException(e);
+      }
     }
     @Test
     void getListPersonByStationNumberTest() throws IOException {

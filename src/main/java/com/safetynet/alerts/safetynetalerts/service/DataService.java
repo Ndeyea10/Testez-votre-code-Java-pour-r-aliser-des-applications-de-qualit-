@@ -24,7 +24,7 @@ public class DataService implements IDataService {
 
     @Override
     public void setData(Data data, Path path) throws IOException {
-        try {
+      //  try {
             ObjectMapper mapper = new ObjectMapper();
             JsonNode jsonNode = mapper.valueToTree(data);
             String jsonString = jsonNode.toString();
@@ -38,10 +38,10 @@ public class DataService implements IDataService {
             //Verify file content
             String content = Files.readString(path);
             System.out.println(content);
-        }catch(IOException e)
+      /*  }catch(IOException e)
             {
                 e.printStackTrace();
-            }
+            }*/
     }
 
 }
