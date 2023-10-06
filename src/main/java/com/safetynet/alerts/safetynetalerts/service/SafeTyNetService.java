@@ -4,22 +4,17 @@ import com.safetynet.alerts.safetynetalerts.dto.*;
 import com.safetynet.alerts.safetynetalerts.entity.Firestation;
 import com.safetynet.alerts.safetynetalerts.entity.MedicalRecord;
 import com.safetynet.alerts.safetynetalerts.entity.Person;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class SafeTyNetService {
-    @Autowired
-    private FirestationService firestationService;
-    @Autowired
-    private MedicalrecordService medicalrecordService;
-    @Autowired
-    private PersonService personService;
+     private FirestationService firestationService;
+     private MedicalrecordService medicalrecordService;
+     private PersonService personService;
 
     public SafeTyNetService(FirestationService firestationService, MedicalrecordService medicalrecordService, PersonService personService) {
         this.firestationService = firestationService;
@@ -38,17 +33,18 @@ public class SafeTyNetService {
 
         return personByStationNumberDTO;
     }
+    public List<String> getListPersonByCity(String city) throws IOException {
+        List<Person>  persons = personService.getPersonByCity(city);
+        List<String> cities = new ArrayList<>();
+        List<Person> personList;
+        for (int i = 0; i < persons.size(); i++) {
+            personList = personService.getListPersonByEmail(persons.get(i).getEmail());
+            cities.addAll(personList.stream().map(person1 -> (person1.getEmail())).toList());
+        }
 
-    public List<PersonByAdressDTO> getListPersonByCity(String city) throws IOException {
-        Person person = personService.getPersonByCity(city);
-        List<Person> personList = personService.getListPersonByEmail(person.getEmail());
-        PersonByAdressDTO personByAdressDTO = new PersonByAdressDTO(person.getEmail());
-        //personList.stream().map(person1 -> new PersonByAdressDTO(person1.getEmail()));
-
-        Person person1 = new Person();
-        List<PersonByAdressDTO> personDTOList = personList.stream().map(per -> new PersonByAdressDTO(per.getEmail())).toList();
-        person1.setEmail(personDTOList.toString());
-        return personDTOList;
+        Set<String> set = new LinkedHashSet<>(cities.stream().toList());
+        List<String> listCityWithoutDuplicates = new ArrayList<>(set);
+        return listCityWithoutDuplicates;
     }
     public MedicalRecordDTO getPersonInfoByFirstNameAndLastName(String firstName, String lastaName) throws IOException {
         Person person = personService.getPersonByFirstNameAndLastName(firstName, lastaName);
@@ -56,6 +52,7 @@ public class SafeTyNetService {
 
         int agePerson = medicalrecordService.agePerson(medicalRecord.getBirthdate());
         MedicalRecordDTO medicalRecordDTO = new MedicalRecordDTO();
+
         medicalRecordDTO.setLastName(person.getLastName());
         medicalRecordDTO.setFirstName(person.getFirstName());
         medicalRecordDTO.setEmail(person.getEmail());
@@ -90,8 +87,6 @@ public class SafeTyNetService {
         }
         Set<String> set = new LinkedHashSet<>(phones);
         List<String> listPhoneWithoutDuplicates = new ArrayList<>(set);
-
-        System.out.println(listPhoneWithoutDuplicates);
         System.out.println(listPhoneWithoutDuplicates.size());
 
         return listPhoneWithoutDuplicates;

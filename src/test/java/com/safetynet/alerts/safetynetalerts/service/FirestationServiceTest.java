@@ -2,7 +2,6 @@ package com.safetynet.alerts.safetynetalerts.service;
 
 import com.safetynet.alerts.safetynetalerts.entity.Data;
 import com.safetynet.alerts.safetynetalerts.entity.Firestation;
-import com.safetynet.alerts.safetynetalerts.entity.Person;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -14,7 +13,8 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -159,6 +159,6 @@ class FirestationServiceTest {
 
         when(dataService.getData(any(Path.class))).thenReturn(data);
         List<Firestation>  firestation1 = firestationService.getAllFirestationByStationNumber("3");
-        assertEquals("1509 Culver St", firestation1.get(0).getAddress());
+        assertEquals(1, firestation1.size());
     }
 }

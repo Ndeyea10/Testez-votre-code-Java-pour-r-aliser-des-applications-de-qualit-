@@ -1,10 +1,12 @@
 package com.safetynet.alerts.safetynetalerts.controller;
 
 import com.safetynet.alerts.safetynetalerts.dto.*;
-import com.safetynet.alerts.safetynetalerts.service.*;
+import com.safetynet.alerts.safetynetalerts.service.SafeTyNetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -22,7 +24,7 @@ public class SafetyNetAlertController {
                   return safeTyNetService.getPersonByStationNumber(stationNumber);
     }
   @GetMapping(path = "/communityEmail", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<PersonByAdressDTO>  getAdressByCity(@RequestParam String city) throws IOException {
+    public List<String>  getAdressByCity(@RequestParam String city) throws IOException {
         return  safeTyNetService.getListPersonByCity(city);
   }
   @GetMapping(path = "/personInfo", produces = MediaType.APPLICATION_JSON_VALUE)

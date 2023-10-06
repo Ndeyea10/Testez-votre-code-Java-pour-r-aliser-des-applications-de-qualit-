@@ -100,7 +100,17 @@ public class PersonService implements PersonRepository {
         List<Person> listPerson = getListPersons();
        return listPerson.stream().filter(person -> person.getAddress().equals(address)).toList();
     }
-    public Person getPersonByCity(String city) throws IOException {
+    public  List<Person>  getPersonByCity(String city) throws IOException {
+        List<Person> listPerson = getListPersons();
+        return listPerson.stream().filter(person -> person.getCity().equals(city)).toList();
+
+    }
+    public  List<Person> getListPersonByEmail(String email) throws IOException {
+        List<Person> listPerson = getListPersons();
+        return listPerson.stream().filter(person -> person.getEmail().equals(email)).toList();
+    }
+
+    public Person getPersonByCities(String city) throws IOException {
         List<Person> listPerson = getListPersons();
         Optional<Person> optionalPerson= listPerson.stream().filter(person -> person.getCity().equals(city)).
                 findFirst();
@@ -109,9 +119,4 @@ public class PersonService implements PersonRepository {
         }
         return  null;
     }
-    public  List<Person> getListPersonByEmail(String email) throws IOException {
-        List<Person> listPerson = getListPersons();
-        return listPerson.stream().filter(person -> person.getEmail().equals(email)).toList();
-    }
-
 }

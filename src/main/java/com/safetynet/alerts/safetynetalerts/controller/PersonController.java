@@ -37,9 +37,8 @@ import java.util.List;
         return ps.updatePerson(person);
         //return ps.updatePerson(person);
     }
-    @DeleteMapping("/")
-    public Boolean deletePerson(@PathVariable String firstName, @PathVariable String lastName) throws IOException {
+    @DeleteMapping("/" )
+    public Boolean deletePerson(@RequestParam String firstName, @RequestParam String lastName) throws IOException {
         return ps.deletePerson(firstName, lastName);
-
     }
 }

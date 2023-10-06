@@ -152,8 +152,8 @@ class PersonServiceTest {
         data.setPersons(persons);
 
         when(dataService.getData(any(Path.class))).thenReturn(data);
-        Person person1 = personService.getPersonByCity("Culver");
-        assertEquals("jaboyd@email.com", person1.getEmail());
+        List<Person> person1 = personService.getPersonByCity("Culver");
+        assertEquals("jaboyd@email.com", person1.get(0).getEmail());
 
     }
 
@@ -191,6 +191,24 @@ class PersonServiceTest {
 
         List<Person> listPerson = personService.createPerson(person);
         assertNotNull(listPerson);
+    }
+
+    @Test
+    public void getPersonByCitiesTest() throws IOException {
+        PersonService personService = new PersonService(dataService);
+        List<Person> persons = new ArrayList<>();
+
+        Person person = new Person();
+        person.setCity("Culver");
+        person.setEmail("jaboyd@email.com");
+        persons.add(person);
+
+        Data data = new Data();
+        data.setPersons(persons);
+
+        when(dataService.getData(any(Path.class))).thenReturn(data);
+        Person person1 = personService.getPersonByCities("Culver");
+        assertEquals("jaboyd@email.com", person1.getEmail());
     }
     /*public void buildDataTest(){
         PersonService personService = new PersonService(dataService);

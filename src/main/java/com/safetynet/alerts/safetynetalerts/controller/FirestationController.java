@@ -20,8 +20,7 @@ public class FirestationController {
     @Autowired
     private FirestationService firestationService;
 
-    public FirestationController() {
-    }
+    public FirestationController() {}
     @GetMapping(path = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Firestation> getListFirestation(HttpServletRequest request, HttpServletResponse response) throws IOException {
         return firestationService.getListFirestations();
@@ -31,13 +30,12 @@ public class FirestationController {
                                       HttpServletRequest request, HttpServletResponse response) throws IOException {
         return firestationService.getFirestations(address);
     }
-    @PutMapping("/")
+    @PutMapping(path="/", produces = MediaType.APPLICATION_JSON_VALUE)
     public Firestation updateFirestation(@RequestBody Firestation firestation) throws IOException {
         return firestationService.updateFirestation(firestation);
     }
-    @DeleteMapping("/")
-    public Boolean deleteFirestation(@PathVariable String address) throws IOException {
+    @DeleteMapping(path="/",produces = MediaType.APPLICATION_JSON_VALUE)
+    public Boolean deleteFirestation(@RequestParam String address) throws IOException {
         return firestationService.deleteFirestation(address);
     }
-
 }

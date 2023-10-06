@@ -36,7 +36,7 @@ public class MedicalrecordController {
         return medicalrecordService.updateMedicalRecord(medicalRecord);
     }
     @DeleteMapping("/")
-    public Boolean deleteMedicalRecord(@PathVariable String firstName, @PathVariable String lastName) throws IOException {
+    public Boolean deleteMedicalRecord(@RequestParam String firstName, @RequestParam String lastName) throws IOException {
         return medicalrecordService.deleteMedicalRecord(firstName, lastName);
     }
 }
