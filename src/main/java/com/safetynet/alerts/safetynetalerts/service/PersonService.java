@@ -1,17 +1,15 @@
 package com.safetynet.alerts.safetynetalerts.service;
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 import com.safetynet.alerts.safetynetalerts.entity.Data;
 import com.safetynet.alerts.safetynetalerts.entity.Firestation;
 import com.safetynet.alerts.safetynetalerts.entity.MedicalRecord;
 import com.safetynet.alerts.safetynetalerts.entity.Person;
 import com.safetynet.alerts.safetynetalerts.repository.PersonRepository;
 import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,7 +23,6 @@ public class PersonService implements PersonRepository {
     @Override
     public List<Person> getListPersons() throws IOException {
         listPerson = dataService.getData(Paths.get(FILE_NAME)).getPersons();
-           // listPerson.add(new Person());
           // System.out.println(listPerson);
         return listPerson;
     }
@@ -54,19 +51,6 @@ public class PersonService implements PersonRepository {
        dataService.setData(data,Paths.get(FILE_NAME));
        return person1;
     }
-    @Override
-    public List<Person> createPerson(Person person) throws IOException {
-
-        List<Person> persons = new ArrayList<>();
-        ObjectMapper mapper = new ObjectMapper();
-      //  String content = Files.readString(path);
-
-     //   Person person1 = mapper.readValue(content, Person.class);
-        persons.add(new Person());
-       // JSONPObject jsonpObject = Json.createObjectBuilder().
-        return persons;
-    }
-
     @Override
     public Person getPersonByFirstNameAndLastName(String firstName, String lastName) throws IOException {
         List<Person> listPersons = getListPersons();

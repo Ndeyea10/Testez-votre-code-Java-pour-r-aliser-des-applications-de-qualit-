@@ -36,7 +36,7 @@ public class MedicalrecordService implements MedicalrecordRepository {
      * @throws IOException
      */
     @Override
-    public MedicalRecord getMedicalRecord(String firstName, String lastName) throws IOException {
+    public MedicalRecord getMedicalRecordByFirstNameAndLastName(String firstName, String lastName) throws IOException {
             List<MedicalRecord> medicalRecordList = getListMedicalRecords();
             Optional<MedicalRecord> optionalMedicalRecord = medicalRecordList.stream()
                     .filter(medicalRecord -> medicalRecord.getFirstName().equals(firstName) && medicalRecord.getLastName().equals(lastName))
@@ -107,7 +107,7 @@ public class MedicalrecordService implements MedicalrecordRepository {
         int cptAdulte =0;
         for (Person person: personList){
 
-                MedicalRecord medicalRecord = getMedicalRecord(person.getFirstName(), person.getLastName());
+                MedicalRecord medicalRecord = getMedicalRecordByFirstNameAndLastName(person.getFirstName(), person.getLastName());
                String birthdate =  medicalRecord.getBirthdate();
                int age = agePerson(birthdate);
                if(age >=18) {
@@ -120,7 +120,7 @@ public class MedicalrecordService implements MedicalrecordRepository {
         int cptEnfant =0;
         for (Person person: personList){
 
-                MedicalRecord medicalRecord = getMedicalRecord(person.getFirstName(), person.getLastName());
+                MedicalRecord medicalRecord = getMedicalRecordByFirstNameAndLastName(person.getFirstName(), person.getLastName());
                 String birthdate =  medicalRecord.getBirthdate();
                 int age = agePerson(birthdate);
                 if(age <18){

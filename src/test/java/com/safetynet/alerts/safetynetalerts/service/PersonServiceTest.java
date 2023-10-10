@@ -1,7 +1,6 @@
 package com.safetynet.alerts.safetynetalerts.service;
 
 import com.safetynet.alerts.safetynetalerts.entity.Data;
-import com.safetynet.alerts.safetynetalerts.entity.Firestation;
 import com.safetynet.alerts.safetynetalerts.entity.Person;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -48,7 +47,7 @@ class PersonServiceTest {
         verify(dataService, times(1)).getData(any(Path.class));
     }
     @Test
-    void  getPersonTest() throws IOException {
+    void getPersonByFirstNameAndLastNameTest() throws IOException {
         PersonService  personService = new PersonService(dataService);
         List<Person> persons = new ArrayList<>();
 
@@ -116,7 +115,6 @@ class PersonServiceTest {
        Person updatePerson = personService.updatePerson(person);
 
        assertEquals("28888", updatePerson.getZip());
-
     }
 
     @Test
@@ -175,25 +173,6 @@ class PersonServiceTest {
         assertEquals(1, personList.size());
     }
     @Test
-    void createPersonTest() throws IOException {
-        PersonService personService = new PersonService(dataService);
-        final  String FILE_NAME = "src/test/resources/dataTest.json";
-        List<Person> persons = new ArrayList<>();
-        Person person = new Person();
-        person.setFirstName("John");
-        person.setLastName("Boyd");
-        person.setAddress("1509 Culver St");
-        person.setCity("Culver");
-        person.setZip("97451");
-        person.setPhone("841-874-6512");
-        person.setEmail("jaboyd@email.com");
-        persons.add(person);
-
-        List<Person> listPerson = personService.createPerson(person);
-        assertNotNull(listPerson);
-    }
-
-    @Test
     public void getPersonByCitiesTest() throws IOException {
         PersonService personService = new PersonService(dataService);
         List<Person> persons = new ArrayList<>();
@@ -210,19 +189,5 @@ class PersonServiceTest {
         Person person1 = personService.getPersonByCities("Culver");
         assertEquals("jaboyd@email.com", person1.getEmail());
     }
-    /*public void buildDataTest(){
-        PersonService personService = new PersonService(dataService);
 
-        FirestationService firestationService = new FirestationService(dataService);
-        List<Firestation> firestations = new ArrayList<>();
-
-        Firestation firestation = new Firestation();
-        firestation.setStation("3");
-        firestation.setAddress("1509 Culver St");
-        firestations.add(firestation);
-
-        Data data = new Data();
-        data.setFirestations(firestations);
-
-    }*/
 }

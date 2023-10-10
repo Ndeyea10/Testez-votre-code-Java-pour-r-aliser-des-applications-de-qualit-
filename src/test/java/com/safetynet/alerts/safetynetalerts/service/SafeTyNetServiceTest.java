@@ -19,7 +19,6 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -107,7 +106,7 @@ class SafeTyNetServiceTest {
         medicalRecord.setBirthdate("03/06/1984");
 
 
-        when(medicalrecordService.getMedicalRecord("John", "Boyd")).thenReturn(medicalRecord);
+        when(medicalrecordService.getMedicalRecordByFirstNameAndLastName("John", "Boyd")).thenReturn(medicalRecord);
         when(personService.getPersonByFirstNameAndLastName("John", "Boyd")).thenReturn(person);
         when(medicalrecordService.agePerson("03/06/1984")).thenReturn(39);
 
@@ -165,7 +164,7 @@ class SafeTyNetServiceTest {
         medicalRecord.setBirthdate("03/06/2014");
 
         when(personService.getListPersonByAddress("1509 Culver St")).thenReturn(personList);
-        when(medicalrecordService.getMedicalRecord("John", "Boyd")).thenReturn(medicalRecord);
+        when(medicalrecordService.getMedicalRecordByFirstNameAndLastName("John", "Boyd")).thenReturn(medicalRecord);
         when(medicalrecordService.agePerson("03/06/2014")).thenReturn(9);
 
         List<ChildDTO> childDTOList = safeTyNetService.getListChildByAddress("1509 Culver St");
@@ -196,7 +195,7 @@ class SafeTyNetServiceTest {
 
         when(personService.getListPersonByAddress("1509 Culver St")).thenReturn(personList);
         when(firestationService.getFirestationByAddress("1509 Culver St")).thenReturn(firestation);
-        when(medicalrecordService.getMedicalRecord("John", "Boyd")).thenReturn(medicalRecord);
+        when(medicalrecordService.getMedicalRecordByFirstNameAndLastName("John", "Boyd")).thenReturn(medicalRecord);
         when(medicalrecordService.agePerson("03/06/1984")).thenReturn(39);
 
         List<FireDTO>  fireDTOList = safeTyNetService.getListPersonByAddress("1509 Culver St");
@@ -232,7 +231,7 @@ class SafeTyNetServiceTest {
 
         when(firestationService.getAllFirestationByStationNumber("3")).thenReturn(firestationList);
         when(personService.getListPersonByAddress("1509 Culver St")).thenReturn(personList);
-        when(medicalrecordService.getMedicalRecord("John", "Boyd")).thenReturn(medicalRecord);
+        when(medicalrecordService.getMedicalRecordByFirstNameAndLastName("John", "Boyd")).thenReturn(medicalRecord);
         when(medicalrecordService.agePerson("03/06/1984")).thenReturn(39);
 
       Map<String, List<FloodDTO>> stringListMap = safeTyNetService.getListPersonByStationNumber( List.of("3"));

@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 @AllArgsConstructor
 @Data
-public class PersonByAdressDTO {
+public class PersonByEmailDTO {
     private String email;
 
 }

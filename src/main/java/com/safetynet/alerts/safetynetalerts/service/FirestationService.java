@@ -26,7 +26,6 @@ public class FirestationService implements FirestationRepository {
 
     @Override
     public List<Firestation> getListFirestations() throws IOException {
-       // List<Firestation> listFirestation = new ArrayList<>();
         listFirestation = dataService.getData(Paths.get(FILE_NAME)).getFirestations();
         return listFirestation;
     }
