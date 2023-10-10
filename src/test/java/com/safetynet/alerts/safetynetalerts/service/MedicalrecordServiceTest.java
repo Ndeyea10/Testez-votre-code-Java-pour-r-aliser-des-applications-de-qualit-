@@ -65,7 +65,7 @@ class MedicalrecordServiceTest {
 
         when(dataService.getData(any(Path.class))).thenReturn(data);
 
-        MedicalRecord medicalRecord1 = medicalrecordService.getMedicalRecord("Jean", "Leroy");
+        MedicalRecord medicalRecord1 = medicalrecordService.getMedicalRecordByFirstNameAndLastName("Jean", "Leroy");
         assertEquals("10/06/1984", medicalRecord1.getBirthdate());
         verify(dataService, times(1)).getData(any(Path.class));
     }

@@ -48,7 +48,7 @@ public class SafeTyNetService {
     }
     public MedicalRecordDTO getPersonInfoByFirstNameAndLastName(String firstName, String lastaName) throws IOException {
         Person person = personService.getPersonByFirstNameAndLastName(firstName, lastaName);
-        MedicalRecord medicalRecord = medicalrecordService.getMedicalRecord(firstName, lastaName);
+        MedicalRecord medicalRecord = medicalrecordService.getMedicalRecordByFirstNameAndLastName(firstName, lastaName);
 
         int agePerson = medicalrecordService.agePerson(medicalRecord.getBirthdate());
         MedicalRecordDTO medicalRecordDTO = new MedicalRecordDTO();
@@ -68,7 +68,7 @@ public class SafeTyNetService {
         int ageP = 0;
         List<ChildDTO> childDTOList = new ArrayList<>();
         for (Person person : personList) {
-            MedicalRecord medicalRecord = medicalrecordService.getMedicalRecord(person.getFirstName(), person.getLastName());
+            MedicalRecord medicalRecord = medicalrecordService.getMedicalRecordByFirstNameAndLastName(person.getFirstName(), person.getLastName());
             int age = medicalrecordService.agePerson(medicalRecord.getBirthdate());
             ageP = age;
             if (age <= 18) {
@@ -99,7 +99,7 @@ public class SafeTyNetService {
         List<FireDTO> fireDTOList = personList.stream()
                 .map(person -> {
                             try {
-                                MedicalRecord medicalRecord = medicalrecordService.getMedicalRecord(person.getFirstName(), person.getLastName());
+                                MedicalRecord medicalRecord = medicalrecordService.getMedicalRecordByFirstNameAndLastName(person.getFirstName(), person.getLastName());
                                 return new FireDTO(
                                         person.getFirstName(),
                                         person.getLastName(),
@@ -128,7 +128,7 @@ public class SafeTyNetService {
                 List<FloodDTO> floodDTOS =personList.stream().map(person ->
                         {
                             try {
-                                MedicalRecord medicalRecord = medicalrecordService.getMedicalRecord(
+                                MedicalRecord medicalRecord = medicalrecordService.getMedicalRecordByFirstNameAndLastName(
                                         person.getFirstName(),
                                         person.getLastName()
                                         );

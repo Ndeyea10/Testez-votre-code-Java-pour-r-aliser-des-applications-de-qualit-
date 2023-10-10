@@ -1,10 +1,7 @@
 package com.safetynet.alerts.safetynetalerts.controller;
 
 import com.safetynet.alerts.safetynetalerts.entity.MedicalRecord;
-import com.safetynet.alerts.safetynetalerts.entity.Person;
-import com.safetynet.alerts.safetynetalerts.service.DataService;
 import com.safetynet.alerts.safetynetalerts.service.MedicalrecordService;
-import com.safetynet.alerts.safetynetalerts.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +26,7 @@ public class MedicalrecordController {
     public MedicalRecord getMedicalRecord(@RequestParam(value = "firstName", required = false) String firstName,
                                              @RequestParam(value = "lastName", required = false)  String lastName ,
                                              HttpServletRequest request, HttpServletResponse response) throws IOException {
-        return medicalrecordService.getMedicalRecord(firstName, lastName);
+        return medicalrecordService.getMedicalRecordByFirstNameAndLastName(firstName, lastName);
     }
     @PutMapping("/")
     public MedicalRecord updateMedicalRecord(@RequestBody MedicalRecord medicalRecord) throws IOException {
